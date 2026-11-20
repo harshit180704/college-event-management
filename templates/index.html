@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Campus Events</h1>
+    <p>Discover, participate and make memories!</p>
+</header>
+
+<main>
+    <section>
+        <h2>Upcoming Events</h2>
+
+        <div class="events">
+            {% for event in events %}
+            <div class="event-card">
+                <span class="category">{{ event.category }}</span>
+                <h3>{{ event.name }}</h3>
+                <p>📅 {{ event.date }}</p>
+                <p>📍 {{ event.venue }}</p>
+
+                <form action="/register" method="POST">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <input type="text" name="student" placeholder="Your name" required>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Add New Event</h2>
+
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="Event name" required>
+            <input type="date" name="date" required>
+            <input type="text" name="venue" placeholder="Venue" required>
+
+            <select name="category" required>
+                <option value="">Select category</option>
+                <option>Technology</option>
+                <option>Cultural</option>
+                <option>Sports</option>
+                <option>Academic</option>
+            </select>
+
+            <button type="submit">Add Event</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Student Registrations</h2>
+
+        {% for registration in registrations %}
+        <p>
+            {{ registration.student }} registered for Event ID:
+            {{ registration.event_id }}
+        </p>
+        {% else %}
+        <p>No registrations yet.</p>
+        {% endfor %}
+    </section>
+</main>
+
+<footer>
+    <p>College Events</p>
+</footer>
+
+</body>
+</html>
