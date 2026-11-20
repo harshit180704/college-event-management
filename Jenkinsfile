@@ -4,6 +4,12 @@ pipeline {
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Check Docker') {
             steps {
                 bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" version'
@@ -12,9 +18,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                dir('D:\\college-event-management') {
-                    bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" build -t college-event-management:latest .'
-                }
+                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" build -t college-event-management:latest .'
             }
         }
 
